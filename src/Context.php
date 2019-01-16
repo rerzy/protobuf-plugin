@@ -61,7 +61,7 @@ class Context
     }
 
     /**
-     * @return array
+     * @return array|Entity[]
      */
     public function getEntities()
     {

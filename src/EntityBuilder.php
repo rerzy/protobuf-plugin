@@ -81,7 +81,7 @@ class EntityBuilder
     /**
      * @param \google\protobuf\FileDescriptorProto $fileDescriptor
      *
-     * @return array
+     * @return array|Entity[]
      */
     protected function buildFileEntities(FileDescriptorProto $fileDescriptor)
     {

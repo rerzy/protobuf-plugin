@@ -62,6 +62,14 @@ class Compiler
         $regenerate   = false;
         $hasExtension = $context->hasProtobufExtension();
 
+        // Make sure namespace is applied before classes are generated
+        array_walk(
+            $entities, function ($entity) use ($options) {
+            $entity->setNamespace(
+                $options->getNamespace()
+            );
+        });
+
         // Run each entity
         foreach ($entities as $key => $entity) {
             $generateImported = $options->getGenerateImported();
