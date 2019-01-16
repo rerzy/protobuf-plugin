@@ -49,6 +49,7 @@ class GenerateCommand extends Command
             ->addOption('protoc', null, InputOption::VALUE_REQUIRED, 'protoc compiler executable path', 'protoc')
             ->addOption('out', 'o', InputOption::VALUE_REQUIRED, 'destination directory for generated files', './')
             ->addOption('psr4', null, InputOption::VALUE_IS_ARRAY|InputOption::VALUE_REQUIRED, 'psr-4 base directory')
+            ->addOption('namespace', null, InputOption::VALUE_REQUIRED, 'Base namespace')
             ->addOption('include', 'i', InputOption::VALUE_IS_ARRAY|InputOption::VALUE_REQUIRED, 'define an include path')
             ->addOption('include-descriptors', null, InputOption::VALUE_NONE, 'add google-protobuf-proto descriptors to include path');
     }
@@ -58,13 +59,14 @@ class GenerateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $args    = [];
-        $out     = $input->getOption('out');
-        $psr4    = $input->getOption('psr4');
-        $protoc  = $input->getOption('protoc');
-        $protos  = $input->getArgument('protos');
-        $include = $input->getOption('include') ?: [];
-        $builder = $this->createProcessBuilder($this->plugin, $protoc);
+        $args      = [];
+        $out       = $input->getOption('out');
+        $psr4      = $input->getOption('psr4');
+        $namespace = $input->getOption('namespace');
+        $protoc    = $input->getOption('protoc');
+        $protos    = $input->getArgument('protos');
+        $include   = $input->getOption('include') ?: [];
+        $builder   = $this->createProcessBuilder($this->plugin, $protoc);
 
         if ($output->isVerbose()) {
             $args['verbose'] = 1;
@@ -76,6 +78,10 @@ class GenerateCommand extends Command
 
         if ($psr4) {
             $args['psr4'] = $psr4;
+        }
+
+        if($namespace) {
+            $args['namespace'] = $namespace;
         }
 
         if ($input->getOption('include-descriptors')) {

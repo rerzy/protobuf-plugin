@@ -41,6 +41,10 @@ class Generator extends BaseGenerator
      */
     public function visit(Entity $entity)
     {
+        $entity->setNamespace(
+            $this->context->getOptions()->getNamespace()
+        );
+
         $type  = $entity->getType();
         $class = $entity->getNamespacedName();
         $path  = $this->getPsr4ClassPath($class);

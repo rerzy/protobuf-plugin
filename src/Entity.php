@@ -64,6 +64,11 @@ class Entity
     protected $protobufExtension = false;
 
     /**
+     * @var string
+     */
+    protected $namespace;
+
+    /**
      * @param string                               $type
      * @param string                               $name
      * @param \Protobuf\Message                    $descriptor
@@ -142,7 +147,21 @@ class Entity
             return $package;
         }
 
-        return str_replace('.', '\\', $package);
+        $packageNamespace = str_replace('.', '\\', $package);
+
+        if($this->namespace) {
+            $packageNamespace = trim($this->namespace, "\\") . "\\" . $packageNamespace;
+        }
+
+        return $packageNamespace;
+    }
+
+    /**
+     * @param string $namespace
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
     }
 
     /**

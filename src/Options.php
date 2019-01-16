@@ -25,6 +25,11 @@ class Options
     protected $generateImported = false;
 
     /**
+     * @var string
+     */
+    protected $namespace;
+
+    /**
      * @return string
      */
     public function getVerbose()
@@ -49,9 +54,17 @@ class Options
     }
 
     /**
+     * @return string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
      * @param array $params
      *
-     * @return \Protobuf\Compiler\Generator\Options
+     * @return \Protobuf\Compiler\Options
      */
     public static function fromArray(array $params)
     {
@@ -67,6 +80,10 @@ class Options
 
         if (isset($params['psr4'])) {
             $options->psr4 = $params['psr4'];
+        }
+
+        if (isset($params['namespace'])) {
+            $options->namespace = $params['namespace'];
         }
 
         return $options;
