@@ -135,23 +135,21 @@ class Entity
      */
     public function getNamespace()
     {
-        $package    = $this->getPackage();
-        $extension  = Extension::package();
-        $extensions = $this->getFileOptionsExtensions();
+        $package         = $this->getPackage();
+        $extension       = Extension::package();
+        $extensions      = $this->getFileOptionsExtensions();
+        $namespacePrefix = $this->namespace ? trim($this->namespace, "\\") : null;
 
         if ($extensions !== null && $extensions->offsetExists($extension)) {
             $package = $this->fullyQualifiedName($extensions->get($extension), $this->parent);
         }
 
         if ($package === null) {
-            return $package;
+            return $namespacePrefix;
         }
 
         $packageNamespace = str_replace('.', '\\', $package);
-
-        if($this->namespace) {
-            $packageNamespace = trim($this->namespace, "\\") . "\\" . $packageNamespace;
-        }
+        $packageNamespace = $namespacePrefix ? $namespacePrefix . "\\" . $packageNamespace : $packageNamespace;
 
         return $packageNamespace;
     }
